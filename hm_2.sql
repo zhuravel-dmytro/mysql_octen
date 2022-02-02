@@ -107,16 +107,40 @@ from application
 where LastName regexp '^.[eyuoa].*'; -- це я звісно підглянув ))
     
 -- 21.Знайти львівські відділення, які видали кредитів на загальну суму більше ніж 5000
+select sum(sum), idDepartment, DepartmentCity
+	from department
+		join client c on c.Department_idDepartment = department.idDepartment
+        join application a on a.Client_idClient = c.idClient
+	where DepartmentCity = 'Lviv'
+    and sum > 5000
+    group by idDepartment, DepartmentCity;
+
+-- 22.Знайти клієнтів, які повністю погасили кредити на суму більше ніж 5000
+select * 
+from client 
+	join application a on a.Client_idClient = client.idClient
+    where CreditState = 'returned'
+    and sum > 5000;
+
+-- 23.Знайти максимальний неповернений кредит.
+select max(sum) as sum, FirstName, Age, CreditState
+from client 
+	join application a on a.Client_idClient = client.idClient
+    where CreditState = 'not returned'
+    group by FirstName, Age, CreditState
+    order by sum desc 
+    limit 1;
+
+-- 24.Знайти клієнта, сума кредиту якого найменша
+select * , sum
+from client
+	join application a on a.Client_idClient = client.idClient
+order by Sum desc 
+limit 1;
 
 select * from client;
 select * from application;
 select * from department;
--- 22.Знайти клієнтів, які повністю погасили кредити на суму більше ніж 5000
-
--- 23.Знайти максимальний неповернений кредит.
-
--- 24.Знайти клієнта, сума кредиту якого найменша
-
 -- 25.Знайти кредити, сума яких більша за середнє значення усіх кредитів
 
 -- 26. Знайти клієнтів, які є з того самого міста, що і клієнт, який взяв найбільшу кількість кредитів
