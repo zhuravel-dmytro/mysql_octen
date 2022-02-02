@@ -137,12 +137,27 @@ from client
 	join application a on a.Client_idClient = client.idClient
 order by Sum desc 
 limit 1;
-
-select * from client;
-select * from application;
-select * from department;
 -- 25.Знайти кредити, сума яких більша за середнє значення усіх кредитів
+select *
+from application
+where  sum > (select avg(sum) from application);
 
 -- 26. Знайти клієнтів, які є з того самого міста, що і клієнт, який взяв найбільшу кількість кредитів
+-- взяв з відповідей
+select *
+from client
+where City = (
+    select c.City
+    from client c
+             join application a on c.idclient = a.client_idclient
+    group by idclient
+    order by count(idapplication) desc
+    limit 1
+);
 
 -- 27. Місто клієнта з найбільшою кількістю кредитів
+select City, sum
+from client
+	join application a on a.Client_idClient = client.idClient
+order by sum desc
+limit 1;
