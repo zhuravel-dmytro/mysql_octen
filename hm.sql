@@ -33,4 +33,4 @@ select * from cars where model like '_a%a__';
 -- найти все машины модели которых больше 8 символов
 select * from cars where length(model) = 8;
 -- ***найти машины цена которых больше чем цена среднего арифметического всех машин
-select avg(price) from cars where price > 3;
+select * from cars where price > (select avg(price) from cars);
