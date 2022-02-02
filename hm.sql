@@ -21,13 +21,13 @@ select * from cars limit 5;
 -- найти последнии 5 машин
 select * from cars  order by id desc limit 5;
 -- найти среднее арифметическое цен машин модели KIA
-select avg(price) as 'середнє ариф' from cars where model = 'KIA';
+select avg(price) as 'середнє ариф', model from cars where model = 'KIA' group by model;
 -- найти среднее арифметическое цен каждой машины
 select avg(price) as 'avg ALL cars'from cars;
 -- посчитать количество каждой марки машин
 select count(*), model from cars group by model;
 -- найти марку машины количество которых больше всего
-select count(*), as count model from cars group by model; -----
+select count(*), model from cars group by model order by count(*) desc limit 1;
 -- найти все машины в модели которых вторая и предпоследняя буква "а"
 select * from cars where model like '_a%a__';
 -- найти все машины модели которых больше 8 символов
